@@ -801,7 +801,7 @@ export default function Home() {
               <Terminal size={16} />
             </span>
             <span className="text-xl font-semibold tracking-tight">
-              echo<span className="text-lime-300">.</span>
+              UNIV-ECHO<span className="text-lime-300">.</span>
             </span>
           </a>
 
