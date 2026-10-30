@@ -4,6 +4,9 @@
   color-scheme: dark;
 }
 
+*{
+  cursor: none !important;
+}
 html {
   scroll-behavior: smooth;
 }

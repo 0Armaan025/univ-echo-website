@@ -4,6 +4,7 @@
 import { useState, useMemo, type FormEvent } from "react";
 import { FaGithub } from "react-icons/fa";
 
+import CustomCursor from "@/components/CustomCursor";
 
 import { ArrowDown, ArrowRight, Check, ChevronDown, Command, Copy, Search, ShieldCheck, Sparkles, Terminal, X } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion"
@@ -114,7 +115,8 @@ export default function Home() {
 
   return (
     <>
-      <main className="relative min-h-screen overflow-hidden bg-[#080a09] text-[#f1f3ed] selection:bg-lime-300 selection:text-black">
+      <main className="relative min-h-screen cursor-none [*_*]:cursor-none overflow-hidden bg-[#080a09] text-[#f1f3ed] selection:bg-lime-300 selection:text-black">
+        <CustomCursor />
 
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
 
