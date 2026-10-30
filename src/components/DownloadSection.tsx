@@ -27,8 +27,8 @@ export default function DownloadSection({
 
         <div className="mb-14 flex flex-col justify-between gap-6 md:flex-row md:items-end">
           <div>
-            <div className="mb-5 flex items-center gap-3 font-mono text-[10px] tracking-[0.2em] text-lime-300">
-              <span className="h-px w-7 bg-lime-300 underline underline-offset-5" />
+            <div className="mb-5 flex underline underline-offset-5 items-center gap-3 font-mono text-[10px] tracking-[0.2em] text-lime-300">
+              <span className="h-px w-7 bg-lime-300" />
               04 / GET YOUR COPY
 
             </div>

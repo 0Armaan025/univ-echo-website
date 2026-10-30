@@ -755,7 +755,7 @@ export default function Home() {
         <section id="getting-started" className="relative z-10 scroll-mt-10 px-5 pb-24 sm:px-8 lg:px-12 lg:pb-32">
           <div className="mx-auto grid max-w-7xl overflow-hidden rounded-2xl border border-white/[0.1] bg-[#0c0f0d] lg:grid-cols-2">
             <div className="flex flex-col items-start justify-center p-7 sm:p-10 lg:p-14">
-              <div className="mb-5 font-mono text-xs tracking-[0.2em] text-lime-300">
+              <div className="mb-5 font-mono text-xs tracking-[0.2em] text-lime-300 underline underline-offset-5">
                 03 / GET STARTED
               </div>
               <h2 className="max-w-lg text-4xl font-semibold leading-tight tracking-[-0.05em] sm:text-5xl">
