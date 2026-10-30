@@ -3,16 +3,13 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import {
-  ArrowDownRight,
+  AlertTriangle,
   ArrowRight,
   Check,
   Copy,
   Download,
-  Monitor,
-  Package,
   Terminal,
 } from "lucide-react";
-
 import { FaGithub } from "react-icons/fa";
 
 const INSTALL_COMMAND =
@@ -40,312 +37,160 @@ export default function DownloadSection() {
   return (
     <section
       id="download"
-      className="relative z-10 scroll-mt-20 border-y border-white/10 bg-[#0a0d0b]"
+      className="relative z-10 scroll-mt-20 border-y border-white/10 bg-[#070908]"
     >
-      <div className="mx-auto max-w-7xl px-5 py-24 sm:px-8 lg:px-12 lg:py-32">
-        {/* Heading */}
-        <div className="mb-14 flex flex-col justify-between gap-6 md:flex-row md:items-end">
-          <div>
-            <div className="mb-5 flex items-center gap-3 font-mono text-[10px] tracking-[0.2em] text-lime-300">
-              <span className="h-px w-7 bg-lime-300" />
-              04 / GET YOUR COPY
-            </div>
+      <div className="mx-auto max-w-5xl px-5 py-28 sm:px-8 lg:py-36">
 
-            <h2 className="max-w-2xl text-4xl font-semibold leading-[1.08] tracking-[-0.055em] sm:text-6xl">
-              Your terminal.
-              <br />
-              <span className="text-lime-300">A better memory.</span>
-            </h2>
-
-            <p className="mt-5 max-w-lg text-sm leading-7 text-neutral-400 sm:text-base">
-              Stop digging through your command history. Find what you need,
-              understand it, and get back to work.
-            </p>
+        {/* Header */}
+        <div className="text-center">
+          <div className="inline-flex items-center gap-2 font-mono text-[10px] tracking-[0.25em] text-lime-400 uppercase mb-4 px-3 py-1 rounded-full bg-lime-400/10 border border-lime-400/20">
+            <span className="h-1.5 w-1.5 rounded-full bg-lime-400 animate-pulse" />
+            04 / Instant Setup
           </div>
 
-          <div className="font-mono text-[10px] leading-6 tracking-wider text-neutral-600">
-            <div>PROJECT: UNIV-ECHO</div>
-            <div>LANGUAGE: C++20</div>
-            <div>PLATFORM: LINUX</div>
+          <h2 className="text-4xl font-bold tracking-tight text-white sm:text-6xl">
+            Get <span className="text-lime-400">Univ-Echo</span> running.
+          </h2>
+
+          <p className="mt-4 max-w-xl mx-auto text-sm text-neutral-400 sm:text-base leading-relaxed">
+            Replace your terminal history with a lightning-fast, local-first search engine built in C++20. No cloud accounts required.
+          </p>
+        </div>
+
+        {/* HERO INSTALL BOX - Absolute Center Focus */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mt-12 overflow-hidden rounded-2xl border border-lime-400/30 bg-[#0d1210] shadow-[0_0_50px_-12px_rgba(163,230,53,0.15)]"
+        >
+          {/* Terminal Top Bar */}
+          <div className="flex items-center justify-between border-b border-white/10 px-5 py-3.5 bg-black/40">
+            <div className="flex items-center gap-2">
+              <span className="h-3 w-3 rounded-full bg-red-500/80" />
+              <span className="h-3 w-3 rounded-full bg-yellow-500/80" />
+              <span className="h-3 w-3 rounded-full bg-lime-400/80" />
+              <span className="ml-3 font-mono text-[11px] text-neutral-400 tracking-wider">
+                bash — linux x86_64
+              </span>
+            </div>
+
+            <button
+              type="button"
+              onClick={copyCommand}
+              className="inline-flex items-center gap-2 rounded-lg bg-lime-400 px-3.5 py-1.5 font-mono text-xs font-semibold text-black transition hover:bg-lime-300 active:scale-95"
+              aria-label="Copy installation command"
+            >
+              {copied ? <Check size={14} /> : <Copy size={14} />}
+              {copied ? "Copied to Clipboard" : "Copy Command"}
+            </button>
+          </div>
+
+          {/* Command Code Display */}
+          <div className="p-6 sm:p-8 bg-black/60">
+            <code className="block overflow-x-auto font-mono text-xs sm:text-sm leading-relaxed text-lime-300 selection:bg-lime-400 selection:text-black">
+              {INSTALL_COMMAND}
+            </code>
+          </div>
+
+          {/* Footer details under command */}
+          <div className="flex flex-wrap items-center justify-between gap-4 border-t border-white/10 px-6 py-4 bg-white/[0.01] text-xs text-neutral-400">
+            <span>📦 Installs cleanly to <code className="text-lime-300 font-mono">~/.local/bin</code> (No sudo needed)</span>
+            <a
+              href={RELEASES_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-1.5 text-lime-400 hover:underline"
+            >
+              <Download size={13} />
+              Manual download archive
+            </a>
+          </div>
+        </motion.div>
+
+        {copyFailed && (
+          <p className="mt-3 text-center text-xs text-red-400">
+            Clipboard access failed. Please select and copy the command manually.
+          </p>
+        )}
+
+        {/* PROMINENT WARNING & COMPATIBILITY SECTION */}
+        <div className="mt-8 rounded-2xl border border-amber-500/30 bg-amber-500/[0.04] p-6 sm:p-8">
+          <div className="flex items-start gap-4">
+            <div className="rounded-xl bg-amber-500/10 p-3 text-amber-400 border border-amber-500/20">
+              <AlertTriangle size={22} />
+            </div>
+            <div>
+              <h3 className="text-base font-semibold text-amber-200">
+                Important Platform & Compatibility Notice
+              </h3>
+              <p className="mt-1 text-xs sm:text-sm text-neutral-400 leading-relaxed">
+                Univ-Echo is currently optimized specifically for Linux environments. Please review the current limitations before deploying:
+              </p>
+
+              <div className="mt-4 grid gap-2.5 sm:grid-cols-3 font-mono text-xs">
+                <div className="rounded-xl border border-white/10 bg-black/30 p-3.5">
+                  <span className="block text-amber-400 font-semibold mb-1">Linux Target</span>
+                  <span className="text-neutral-400">Primary and fully supported platform (Arch, Ubuntu, etc.)</span>
+                </div>
+                <div className="rounded-xl border border-white/10 bg-black/30 p-3.5">
+                  <span className="block text-amber-400 font-semibold mb-1">Windows Support</span>
+                  <span className="text-neutral-400">Untested. Expect bugs and compatibility issues.</span>
+                </div>
+                <div className="rounded-xl border border-white/10 bg-black/30 p-3.5">
+                  <span className="block text-amber-400 font-semibold mb-1">Bash History</span>
+                  <span className="text-neutral-400">Import tools for Bash are experimental and evolving.</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* Main content */}
-        <div className="grid gap-5 lg:grid-cols-[1.15fr_0.85fr]">
-          {/* Terminal preview */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="overflow-hidden border border-white/10 bg-[#080a09]"
-          >
-            <div className="flex items-center justify-between border-b border-white/10 px-4 py-3">
-              <div className="flex items-center gap-2">
-                <span className="h-2.5 w-2.5 rounded-full bg-red-400/70" />
-                <span className="h-2.5 w-2.5 rounded-full bg-yellow-400/70" />
-                <span className="h-2.5 w-2.5 rounded-full bg-lime-300/70" />
-              </div>
-
-              <span className="font-mono text-[10px] tracking-widest text-neutral-600">
-                UNIV-ECHO / TERMINAL
-              </span>
+        {/* History Import Helpers */}
+        <div className="mt-12 grid gap-6 sm:grid-cols-2">
+          <div className="rounded-2xl border border-white/10 bg-[#0d1210] p-6">
+            <div className="flex items-center gap-3 mb-4">
+              <Terminal size={18} className="text-lime-400" />
+              <h4 className="text-sm font-semibold text-white">Import Existing Zsh/Bash History</h4>
             </div>
-
-            <div className="min-h-[330px] p-6 font-mono text-xs leading-7 sm:p-9 sm:text-sm">
-              <div className="text-neutral-600">
-                # Your command history, reimagined.
+            <p className="text-xs text-neutral-400 mb-4 leading-relaxed">
+              Bring your legacy command histories straight into Univ-Echo instantly:
+            </p>
+            <div className="space-y-2.5 font-mono text-xs">
+              <div className="rounded-lg bg-black/50 border border-white/10 px-3 py-2.5 text-lime-300">
+                univecho import-history
               </div>
-
-              <div className="mt-7">
-                <span className="text-lime-300">armaan@machine</span>
-                <span className="text-neutral-500">:</span>
-                <span className="text-sky-300">~</span>
-                <span className="text-neutral-400">$</span>
-                <span className="ml-2 text-neutral-200">
-                  univecho
-                </span>
-              </div>
-
-              <div className="mt-5 text-neutral-500">
-                Initializing UNIV-ECHO...
-              </div>
-              <div className="text-neutral-500">
-                Loading local command database...
-              </div>
-              <div className="text-lime-300">
-                Ready. Your history is yours.
-              </div>
-
-              <div className="mt-8 border-t border-white/[0.07] pt-5">
-                <div className="text-neutral-500">
-                  Search your past commands.
-                </div>
-                <div className="mt-3 flex items-center gap-2">
-                  <span className="text-lime-300">&gt;</span>
-                  <span className="text-neutral-200">
-                    find commands related to docker
-                  </span>
-                  <span className="h-4 w-1.5 animate-pulse bg-lime-300" />
-                </div>
+              <div className="rounded-lg bg-black/50 border border-white/10 px-3 py-2.5 text-neutral-300">
+                univecho import-history --shell zsh
               </div>
             </div>
+          </div>
 
-            <div className="flex flex-wrap items-center justify-between gap-3 border-t border-white/10 px-4 py-4">
-              <span className="text-xs text-neutral-500">
-                Your commands. Your machine. Your control.
-              </span>
-              <span className="flex items-center gap-2 font-mono text-[9px] tracking-wider text-neutral-600">
-                <span className="h-1.5 w-1.5 rounded-full bg-lime-300" />
-                LOCAL-FIRST
-              </span>
-            </div>
-          </motion.div>
-
-          {/* Download panel */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="flex flex-col justify-between border border-white/10 bg-[#0d110e] p-6 sm:p-8"
-          >
+          <div className="rounded-2xl border border-white/10 bg-[#0d1210] p-6 flex flex-col justify-between">
             <div>
-              <div className="flex items-center justify-between">
-                <span className="font-mono text-[10px] tracking-[0.2em] text-neutral-500">
-                  DOWNLOAD / INSTALL
-                </span>
-                <Package size={18} className="text-lime-300" />
+              <div className="flex items-center gap-3 mb-4">
+                <FaGithub size={18} className="text-white" />
+                <h4 className="text-sm font-semibold text-white">Open Source & Contributions</h4>
               </div>
-
-              <h3 className="mt-8 text-3xl font-semibold tracking-tight">
-                Get UNIV-ECHO.
-              </h3>
-
-              <p className="mt-3 text-sm leading-7 text-neutral-500">
-                Get started with one command or download the release archive
-                and install it manually.
+              <p className="text-xs text-neutral-400 leading-relaxed">
+                Inspect the raw source code, check architecture guidelines, or compile directly from source code on GitHub.
               </p>
-
-              {/* Linux */}
-              <div className="mt-9 border-t border-white/10 pt-5">
-                <div className="flex items-center gap-3">
-                  <Terminal size={19} className="text-lime-300" />
-                  <div>
-                    <h4 className="text-sm font-medium text-neutral-200">
-                      Linux
-                    </h4>
-                    <p className="mt-1 text-[11px] text-neutral-600">
-                      x86_64 · Arch · Ubuntu · Other distributions
-                    </p>
-                  </div>
-                </div>
-
-                {/* Install command */}
-                <div className="mt-4 overflow-hidden rounded-lg border border-white/10 bg-[#080a09]">
-                  <div className="flex items-center justify-between border-b border-white/[0.07] px-3 py-2">
-                    <span className="font-mono text-[9px] tracking-widest text-neutral-500">
-                      QUICK INSTALL · BASH
-                    </span>
-
-                    <button
-                      type="button"
-                      onClick={copyCommand}
-                      className="inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-[10px] text-neutral-400 transition hover:bg-white/[0.06] hover:text-lime-300"
-                      aria-label="Copy Linux installation command"
-                    >
-                      {copied ? (
-                        <Check size={12} />
-                      ) : (
-                        <Copy size={12} />
-                      )}
-                      {copied ? "Copied" : "Copy"}
-                    </button>
-                  </div>
-
-                  <code className="block overflow-x-auto whitespace-nowrap px-3 py-3 font-mono text-[10px] leading-5 text-lime-200 sm:text-[11px]">
-                    {INSTALL_COMMAND}
-                  </code>
-                </div>
-
-                {copyFailed && (
-                  <p className="mt-2 text-[10px] text-red-300">
-                    Clipboard access failed. Please copy the command manually.
-                  </p>
-                )}
-
-                <p className="mt-2 text-[10px] leading-5 text-neutral-600">
-                  Installs to ~/.local/bin. No sudo required.
-                </p>
-
-                {/* Manual download */}
-                <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
-                  <span className="font-mono text-[10px] text-neutral-600">
-                    MANUAL DOWNLOAD
-                  </span>
-
-                  <a
-                    href={RELEASES_URL}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex items-center gap-2 text-xs text-lime-300 transition hover:text-lime-200"
-                  >
-                    <Download size={14} />
-                    Linux release archive
-                    <ArrowRight size={14} />
-                  </a>
-                </div>
-              </div>
-              {/* Import existing history */}
-              <div className="mt-6 border-t border-white/10 pt-5">
-                <div className="flex items-center gap-3">
-                  <Terminal size={19} className="text-lime-300" />
-                  <div>
-                    <h4 className="text-sm font-medium text-neutral-200">
-                      Import existing shell history
-                    </h4>
-                    <p className="mt-1 text-[11px] text-neutral-600">
-                      Bring commands from your existing history files into UNIV-ECHO.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="mt-4 space-y-4">
-                  <div>
-                    <p className="mb-2 font-mono text-[9px] tracking-widest text-neutral-500">
-                      ZSH · DEFAULT AUTO-DETECTION
-                    </p>
-                    <code className="block overflow-x-auto rounded-lg border border-white/10 bg-[#080a09] px-3 py-3 font-mono text-[11px] text-lime-200">
-                      univecho import-history
-                    </code>
-                  </div>
-
-                  <div>
-                    <p className="mb-2 font-mono text-[9px] tracking-widest text-neutral-500">
-                      SPECIFY A SHELL
-                    </p>
-                    <code className="block overflow-x-auto whitespace-pre rounded-lg border border-white/10 bg-[#080a09] px-3 py-3 font-mono text-[11px] leading-6 text-neutral-200">
-                      {"univecho import-history --shell zsh\nunivecho import-history --shell bash"}
-                    </code>
-                  </div>
-
-                  <div>
-                    <p className="mb-2 font-mono text-[9px] tracking-widest text-neutral-500">
-                      IMPORT A SPECIFIC HISTORY FILE
-                    </p>
-                    <code className="block overflow-x-auto whitespace-pre rounded-lg border border-white/10 bg-[#080a09] px-3 py-3 font-mono text-[11px] leading-6 text-neutral-200">
-                      {"univecho import-history --file ~/.zsh_history\nunivecho import-history --file ~/.bash_history"}
-                    </code>
-                  </div>
-                </div>
-
-                <div className="mt-4 rounded-lg border border-amber-300/15 bg-amber-300/[0.035] p-3">
-                  <p className="text-[11px] font-medium text-amber-200">
-                    Compatibility notice
-                  </p>
-                  <ul className="mt-2 space-y-1 text-[10px] leading-5 text-neutral-400">
-                    <li>• Linux is the current target platform.</li>
-                    <li>• Windows has not been tested; bugs and compatibility issues may occur.</li>
-                    <li>• Bash history importing has not been thoroughly tested and may contain bugs.</li>
-                  </ul>
-                </div>
-              </div>
-              {/* Windows */}
-              <div className="mt-6 border-t border-white/10 pt-5">
-                <div className="flex items-center gap-3">
-                  <Monitor size={19} className="text-neutral-500" />
-                  <div>
-                    <h4 className="text-sm font-medium text-neutral-300">
-                      Windows
-                    </h4>
-                    <p className="mt-1 text-[11px] text-neutral-600">
-                      Windows x64 · Coming later
-                    </p>
-                  </div>
-                </div>
-              </div>
             </div>
 
-            {/* Source code */}
-            <div className="mt-10 border-t border-white/10 pt-6">
+            <div className="mt-6 pt-4 border-t border-white/10 flex items-center justify-between">
+              <span className="font-mono text-xs text-neutral-500">C++20 · Local-First</span>
               <a
                 href={REPO_URL}
                 target="_blank"
                 rel="noreferrer"
-                className="group flex items-center justify-between gap-3 rounded-lg border border-white/10 px-4 py-4 transition hover:border-lime-300/30 hover:bg-lime-300/[0.035]"
+                className="inline-flex items-center gap-2 text-xs font-medium text-lime-400 hover:text-lime-300"
               >
-                <div className="flex items-center gap-3">
-                  <FaGithub size={19} />
-                  <div>
-                    <span className="block text-sm font-medium">
-                      Build from source
-                    </span>
-                    <span className="mt-1 block text-[11px] text-neutral-500">
-                      Explore the GitHub repository
-                    </span>
-                  </div>
-                </div>
-
-                <ArrowDownRight
-                  size={18}
-                  className="text-neutral-500 transition group-hover:translate-x-1 group-hover:translate-y-1 group-hover:text-lime-300"
-                />
+                View Repository <ArrowRight size={14} />
               </a>
             </div>
-          </motion.div>
+          </div>
         </div>
 
-        <div className="mt-8 flex flex-col justify-between gap-3 font-mono text-[9px] tracking-wider text-neutral-600 sm:flex-row">
-          <span>NO ACCOUNTS. NO CLOUD HISTORY. YOUR MACHINE.</span>
-
-          <a
-            href={REPO_URL}
-            target="_blank"
-            rel="noreferrer"
-            className="flex items-center gap-2 transition hover:text-lime-300"
-          >
-            SOURCE CODE <ArrowRight size={12} />
-          </a>
-        </div>
       </div>
     </section>
   );
