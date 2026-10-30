@@ -235,7 +235,60 @@ export default function DownloadSection() {
                   </a>
                 </div>
               </div>
+              {/* Import existing history */}
+              <div className="mt-6 border-t border-white/10 pt-5">
+                <div className="flex items-center gap-3">
+                  <Terminal size={19} className="text-lime-300" />
+                  <div>
+                    <h4 className="text-sm font-medium text-neutral-200">
+                      Import existing shell history
+                    </h4>
+                    <p className="mt-1 text-[11px] text-neutral-600">
+                      Bring commands from your existing history files into UNIV-ECHO.
+                    </p>
+                  </div>
+                </div>
 
+                <div className="mt-4 space-y-4">
+                  <div>
+                    <p className="mb-2 font-mono text-[9px] tracking-widest text-neutral-500">
+                      ZSH · DEFAULT AUTO-DETECTION
+                    </p>
+                    <code className="block overflow-x-auto rounded-lg border border-white/10 bg-[#080a09] px-3 py-3 font-mono text-[11px] text-lime-200">
+                      univecho import-history
+                    </code>
+                  </div>
+
+                  <div>
+                    <p className="mb-2 font-mono text-[9px] tracking-widest text-neutral-500">
+                      SPECIFY A SHELL
+                    </p>
+                    <code className="block overflow-x-auto whitespace-pre rounded-lg border border-white/10 bg-[#080a09] px-3 py-3 font-mono text-[11px] leading-6 text-neutral-200">
+                      {"univecho import-history --shell zsh\nunivecho import-history --shell bash"}
+                    </code>
+                  </div>
+
+                  <div>
+                    <p className="mb-2 font-mono text-[9px] tracking-widest text-neutral-500">
+                      IMPORT A SPECIFIC HISTORY FILE
+                    </p>
+                    <code className="block overflow-x-auto whitespace-pre rounded-lg border border-white/10 bg-[#080a09] px-3 py-3 font-mono text-[11px] leading-6 text-neutral-200">
+                      {"univecho import-history --file ~/.zsh_history\nunivecho import-history --file ~/.bash_history"}
+                    </code>
+                  </div>
+                </div>
+
+                <div className="mt-4 rounded-lg border border-amber-300/15 bg-amber-300/[0.035] p-3">
+                  <p className="text-[11px] font-medium text-amber-200">
+                    Compatibility notice
+                  </p>
+                  <ul className="mt-2 space-y-1 text-[10px] leading-5 text-neutral-400">
+                    <li>• Linux is the current target platform.</li>
+                    <li>• Windows has not been tested; bugs and compatibility issues may occur.</li>
+                    <li>• Bash history importing has not been thoroughly tested and may contain bugs.</li>
+                  </ul>
+                </div>
+              </div>
               {/* Windows */}
               <div className="mt-6 border-t border-white/10 pt-5">
                 <div className="flex items-center gap-3">
