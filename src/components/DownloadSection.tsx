@@ -9,7 +9,7 @@ import {
   Copy,
   Download,
   Terminal,
-  Cpu, // Added for Ollama icon representation
+  Cpu,
 } from "lucide-react";
 import { FaGithub } from "react-icons/fa";
 
@@ -41,6 +41,37 @@ export default function DownloadSection() {
       className="relative z-10 scroll-mt-20 border-y border-white/10 bg-[#070908]"
     >
       <div className="mx-auto max-w-5xl px-5 py-28 sm:px-8 lg:py-36">
+
+        {/* DEMO VIDEO PREVIEW */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mb-16 overflow-hidden rounded-2xl border border-lime-400/30 bg-[#0d1210] shadow-[0_0_50px_-12px_rgba(163,230,53,0.15)]"
+        >
+          {/* Terminal Top Bar styling for the video container */}
+          <div className="flex items-center justify-between border-b border-white/10 px-5 py-3.5 bg-black/40">
+            <div className="flex items-center gap-2">
+              <span className="h-3 w-3 rounded-full bg-red-500/80" />
+              <span className="h-3 w-3 rounded-full bg-yellow-500/80" />
+              <span className="h-3 w-3 rounded-full bg-lime-400/80" />
+              <span className="ml-3 font-mono text-[11px] text-neutral-400 tracking-wider">
+                univ-echo — demo preview
+              </span>
+            </div>
+          </div>
+
+          <div className="bg-black/60 aspect-video w-full overflow-hidden">
+            <video
+              src="/demo.mp4"
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="h-full w-full object-cover"
+            />
+          </div>
+        </motion.div>
 
         {/* Header */}
         <div className="text-center">
