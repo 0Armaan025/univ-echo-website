@@ -4,6 +4,7 @@
 import { useState, useMemo, type FormEvent } from "react";
 import { FaGithub } from "react-icons/fa";
 import HandwritteNote from "@/components/HandwrittenNote";
+import DownloadSection from "@/components/DownloadSection";
 
 import TechnicalGrid from "@/components/TechnicalGrid";
 import CustomCursor from "@/components/CustomCursor";
@@ -805,6 +806,7 @@ export default function Home() {
           </div>
         </section>
 
+        <DownloadSection />
         {/* Footer */}
         <footer className="relative z-10 mx-auto flex max-w-7xl flex-col items-center justify-between gap-5 border-t border-white/[0.08] px-5 py-8 text-center sm:px-8 md:flex-row md:text-left lg:px-12">
           <a href="#" className="flex items-center gap-2.5">
