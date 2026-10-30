@@ -9,6 +9,7 @@ import {
   Copy,
   Download,
   Terminal,
+  Cpu, // Added for Ollama icon representation
 } from "lucide-react";
 import { FaGithub } from "react-icons/fa";
 
@@ -113,6 +114,38 @@ export default function DownloadSection() {
             Clipboard access failed. Please select and copy the command manually.
           </p>
         )}
+
+        {/* PREREQUISITES / OLLAMA SETUP SECTION */}
+        <div className="mt-8 rounded-2xl border border-lime-400/20 bg-lime-400/[0.02] p-6 sm:p-8">
+          <div className="flex items-start gap-4">
+            <div className="rounded-xl bg-lime-400/10 p-3 text-lime-400 border border-lime-400/20">
+              <Cpu size={22} />
+            </div>
+            <div>
+              <h3 className="text-base font-semibold text-white">
+                Ollama Model Prerequisite
+              </h3>
+              <p className="mt-1 text-xs sm:text-sm text-neutral-400 leading-relaxed">
+                Univ-Echo requires a local Ollama instance running to handle vector embeddings. Make sure Ollama is installed and running on its default URL before querying:
+              </p>
+
+              <div className="mt-4 grid gap-3 font-mono text-xs">
+                <div className="rounded-xl border border-white/10 bg-black/40 p-3.5 flex flex-col gap-1.5">
+                  <span className="text-lime-400 font-semibold">1. Pull & Run the Embedding Model</span>
+                  <code className="text-neutral-300 bg-black/60 p-2 rounded border border-white/5">
+                    ollama run qwen3-embedding-0.6b-v1
+                  </code>
+                </div>
+                <div className="rounded-xl border border-white/10 bg-black/40 p-3.5 flex flex-col gap-1.5">
+                  <span className="text-lime-400 font-semibold">2. Default Endpoint Connection</span>
+                  <span className="text-neutral-400">
+                    Univ-Echo automatically connects to Ollama at <code className="text-lime-300 font-mono">http://localhost:11434</code>.
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
         {/* PROMINENT WARNING & COMPATIBILITY SECTION */}
         <div className="mt-8 rounded-2xl border border-amber-500/30 bg-amber-500/[0.04] p-6 sm:p-8">
