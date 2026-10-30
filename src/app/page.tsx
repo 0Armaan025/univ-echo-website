@@ -3,7 +3,9 @@
 
 import { useState, useMemo, type FormEvent } from "react";
 import { FaGithub } from "react-icons/fa";
+import HandwritteNote from "@/components/HandwrittenNote";
 
+import TechnicalGrid from "@/components/TechnicalGrid";
 import CustomCursor from "@/components/CustomCursor";
 
 import { ArrowDown, ArrowRight, Check, ChevronDown, Command, Copy, Search, ShieldCheck, Sparkles, Terminal, X } from "lucide-react";
@@ -116,6 +118,7 @@ export default function Home() {
   return (
     <>
       <main className="relative min-h-screen cursor-none [*_*]:cursor-none overflow-hidden bg-[#080a09] text-[#f1f3ed] selection:bg-lime-300 selection:text-black">
+        <TechnicalGrid />
         <CustomCursor />
 
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
@@ -349,13 +352,19 @@ export default function Home() {
 
                 01 / INTERACTIVE PLAYGROUND
               </div>
-
+              <div className="mt-4 mb-4 ml-2">
+                <HandwritteNote>
+                  no need to remember the exact syntax
+                </HandwritteNote>
+              </div>
 
               <h2 className="text-4xl font-semibold tracking-[-0.05em] sm:text-5xl">
                 Think it.
 
                 <span className="text-neutral-600"> Find it.</span>
               </h2>
+
+
 
               <p className="mt-5 max-w-xl leading-7 text-neutral-400">
                 Try a query just like you would in UNIV-ECHO. This playground uses sample history so you can explore the experience instantly.
