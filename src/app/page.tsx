@@ -6,6 +6,7 @@ import { FaGithub } from "react-icons/fa";
 import HandwritteNote from "@/components/HandwrittenNote";
 import DownloadSection from "@/components/DownloadSection";
 import CompatibilityFAQ from "@/components/CompatibilityFAQ";
+import CoolThings from "@/components/CoolThings";
 
 import TechnicalGrid from "@/components/TechnicalGrid";
 import CustomCursor from "@/components/CustomCursor";
@@ -152,7 +153,8 @@ export default function Home() {
 
           <nav className="hidden items-center gap-8 text-sm transition-all hover:cursor-pointer text-neutral-400 md:flex">
             <a className="transition hover:text-white" href="#demo">Live demo</a>
-            <a className="transition hover:text-white" href="#features">Features</a>
+            <a className="transition hover:text-white" href="#requirements">Requirements</a>
+            <a className="transition hover:text-white" href="#faq">FAQ</a> <a className="transition hover:text-white" href="#features">Features</a>
             <a className="transition hover:text-white" href="#getting-started">Get started</a>
           </nav>
 
@@ -509,7 +511,7 @@ export default function Home() {
 
                             <Search size={23} className="text-neutral-600" />
                             <strong className="text-sm font-medium text-neutral-300">
-                              No sample commands matched
+                              Welp. Nothing in this sample history.
                             </strong>
 
                             <span className="max-w-xs text-xs leading-5 text-neutral-600">
@@ -615,7 +617,7 @@ export default function Home() {
                             className={`mt-6 inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg px-4 py-3 text-sm font-medium transition ${copied ? "border border-lime-300/20 bg-lime-300/[0.08] text-lime-300" : "bg-lime-300 text-black hover:bg-lime-200"}`}>
 
                             {copied ? <Check size={16} /> : <Copy size={16} />}
-                            {copied ? "Copied to clipboard" : "Copy command"}
+                            {copied ? "NICE." : "Copy command"}
                           </button>
 
                           <button type="button" onClick={() => setDetailsOpen((open) => !open)}
@@ -808,7 +810,9 @@ export default function Home() {
         </section>
 
         <DownloadSection />
+        <CoolThings />
         {/* Footer */}
+        <CompatibilityFAQ />
         <footer className="relative z-10 mx-auto flex max-w-7xl flex-col items-center justify-between gap-5 border-t border-white/[0.08] px-5 py-8 text-center sm:px-8 md:flex-row md:text-left lg:px-12">
           <a href="#" className="flex items-center gap-2.5">
             <span className="grid h-8 w-8 place-items-center rounded-lg border border-lime-300/15 bg-lime-300/[0.06] text-lime-300">
@@ -833,7 +837,7 @@ export default function Home() {
           </a>
         </footer>
 
-        <CompatibilityFAQ />
+
       </main >
 
     </>
