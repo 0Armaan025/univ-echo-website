@@ -68,10 +68,13 @@ export default function DownloadSection() {
               loop
               muted
               playsInline
+              controls
               className="h-full w-full object-cover"
             />
           </div>
         </motion.div>
+        {/* alright  */}
+        {/* alright let's do it */}
 
         {/* Header */}
         <div className="text-center">

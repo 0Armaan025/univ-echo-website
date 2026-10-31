@@ -1,37 +1,54 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# UNIV-ECHO
 
-## Getting Started
+You forgot the command. UNIV-ECHO didn't.
 
-First, run the development server:
+A local-first terminal tool that searches your command history by meaning. Not syntax. Not flags. Just describe what you were trying to do and find it.
+
+## What it is
+
+UNIV-ECHO is a C++ native CLI with a terminal UI. It indexes your shell history and lets you search it with natural language descriptions. The web demo on this site uses a small sample set. The real thing runs on your machine.
+
+## Try the demo first
+
+The site has a live interactive playground. Go to the [Live demo](#demo) section, type something like "find big files" and see how it ranks results. Nothing runs on your machine. It's simulated.
+
+## Why I built it
+
+I kept forgetting exact commands. I know what I want to do — clean up disk space, find logs, check git status — but the exact syntax slips away. Rather than digging through hundreds of lines of history, I wanted to search by intent.
+
+## Features
+
+- Search command history by describing your goal
+- Local-first: your data never leaves your machine
+- Native C++20 application with a terminal UI
+- Semantic ranking, not just keyword matching
+
+## Stack
+
+- Next.js 16, React 19, TypeScript
+- Framer Motion for animations
+- Tailwind CSS v4
+- Custom cursor, handwritten notes, dark terminal aesthetic
+
+## Installation
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/0Armaan025/univ-echo.git
+cd univ-echo
+cmake -S . -B build
+cmake --build build -j2
+./build/univecho
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Dependencies and Ollama setup are covered in the repo README.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Status
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Built for Hack Club Terra. Open source and actively developed. The website is the landing page; the actual engine lives in the C++ repository.
 
-## Learn More
+## Links
 
-To learn more about Next.js, take a look at the following resources:
+- [GitHub repository](https://github.com/0Armaan025/univ-echo)
+- [Live demo](#demo) on this site
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# univ-echo-website
+Built for the commands you almost remembered.

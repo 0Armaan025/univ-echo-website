@@ -5,6 +5,7 @@ import { useState, useMemo, type FormEvent } from "react";
 import { FaGithub } from "react-icons/fa";
 import HandwritteNote from "@/components/HandwrittenNote";
 import DownloadSection from "@/components/DownloadSection";
+import CompatibilityFAQ from "@/components/CompatibilityFAQ";
 
 import TechnicalGrid from "@/components/TechnicalGrid";
 import CustomCursor from "@/components/CustomCursor";
@@ -832,7 +833,9 @@ export default function Home() {
           </a>
         </footer>
 
+        <CompatibilityFAQ />
       </main >
+
     </>
 
   );
