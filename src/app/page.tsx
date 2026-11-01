@@ -215,7 +215,7 @@ export default function Home() {
                 <ArrowRight size={17} className="transition group-hover:translate-x-1" />
               </a>
 
-              <a href="#getting-started" className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.03] px-5 py-3.5 text-sm font-medium text-neutral-200 transition hover:border-white/20 hover:bg-white/[0.06">
+              <a href="https://github.com/0Armaan025/univ-echo/releases" target="_blank" className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.03] px-5 py-3.5 text-sm font-medium text-neutral-200 transition hover:border-white/20 hover:bg-white/[0.06">
                 <Terminal size={16} />
                 Install UNIV-ECHO
               </a>
