@@ -11,7 +11,7 @@ import CoolThings from "@/components/CoolThings";
 import TechnicalGrid from "@/components/TechnicalGrid";
 import CustomCursor from "@/components/CustomCursor";
 
-import { ArrowDown, ArrowRight, Check, ChevronDown, Command, Copy, Search, ShieldCheck, Sparkles, Terminal, X } from "lucide-react";
+import { ArrowRight, Check, ChevronDown, Command, Copy, Search, ShieldCheck, Sparkles, Terminal, X, Activity, BarChart3, Monitor, Cpu, MemoryStick, HardDrive, Zap } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion"
 
 type CommandResult = {
@@ -76,6 +76,106 @@ function rankResults(query: string) {
 }
 
 
+
+function mulberry32(seed: number) {
+  return () => {
+    seed |= 0;
+    seed = (seed + 0x6d2b79f5) | 0;
+    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+function ActivityGraph() {
+  const days = 30;
+  const rand = mulberry32(0x1e9a4c2);
+  const now = 1769900000000;
+  const data = Array.from({ length: days }, (_, i) => {
+    const day = now - (days - 1 - i) * 86400000;
+    const base = Math.sin((i / days) * Math.PI * 4) * 12 + 14;
+    const noise = Math.floor(rand() * 11);
+    return { day, value: Math.max(0, Math.round(base + noise)) };
+  });
+
+  const max = Math.max(...data.map((d) => d.value), 10);
+  const pad = 10;
+  const h = 120;
+
+  const points = data
+    .map((d, i) => {
+      const x = pad + (i / (days - 1)) * (360 - pad * 2);
+      const y = h - pad - (d.value / max) * (h - pad * 2);
+      return `${x},${y}`;
+    })
+    .join(" ");
+
+  const areaPoints = [
+    `0,${h - pad}`,
+    points,
+    `${360 - pad},${h - pad}`,
+  ].join(" ");
+
+  return (
+    <svg
+      width={360}
+      height={h}
+      viewBox={`0 0 360 ${h}`}
+      fill="none"
+      className="w-full h-full"
+    >
+      <defs>
+        <linearGradient id="grad" x1="0" x2="0" y1="0" y2="1">
+          <stop stopColor="#a3e635" stopOpacity="0.35" offset="0%" />
+          <stop stopColor="#a3e635" stopOpacity="0" offset="100%" />
+        </linearGradient>
+      </defs>
+      <path
+        d={`M${areaPoints}Z`}
+        fill="url(#grad)"
+        className="animate-[fade_0.4s_ease-out]"
+      />
+      <polyline
+        points={points}
+        stroke="#a3e635"
+        strokeWidth={2}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        fill="none"
+        className="animate-[draw_0.6s_ease-out]"
+        style={{ strokeDasharray: "1000", strokeDashoffset: "1000" }}
+      />
+      {data.map((d, i) => {
+        const x = pad + (i / (days - 1)) * (360 - pad * 2);
+        const y = h - pad - (d.value / max) * (h - pad * 2);
+        return i % 4 === 0 ? (
+          <circle
+            key={i}
+            cx={x}
+            cy={y}
+            r={2.5}
+            fill="#a3e635"
+            className="animate-pulse"
+          />
+        ) : null;
+      })}
+      {/* month labels */}
+      <g className="text-[9px] text-neutral-600 font-mono leading-tight">
+        {data.map((d, i) => {
+          if (i % 6 !== 0) return null;
+          const x = pad + (i / (days - 1)) * (360 - pad * 2);
+          const date = new Date(d.day);
+          const label = date.toLocaleDateString(undefined, { month: "short" });
+          return (
+            <text key={i} x={x} y={h - 2} textAnchor="middle">
+              {label}
+            </text>
+          );
+        })}
+      </g>
+    </svg>
+  );
+}
 
 export default function Home() {
 
@@ -752,6 +852,189 @@ export default function Home() {
                 </motion.article>
               );
             })}
+          </div>
+
+          {/* activity dashboard */}
+          <div className="mt-16 border-t border-white/[0.06] pt-16">
+            <div className="mb-12 max-w-2xl">
+              <div className="mb-4 font-mono text-xs tracking-[0.2em] text-lime-300 underline underline-offset-5">
+                {"03"} / ACTIVITY DASHBOARD
+              </div>
+              <h2 className="text-4xl font-semibold tracking-[-0.05em] sm:text-5xl">
+                Your terminal, at a glance.
+              </h2>
+              <p className="mt-5 max-w-xl leading-7 text-neutral-400">
+                Streaks, usage over time, your go-to commands, and live system
+                resources.
+              </p>
+            </div>
+
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+              {/* streak card */}
+              <motion.article
+                whileHover={{ y: -4 }}
+                transition={{ duration: 0.2 }}
+                className="relative overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.02] p-6 sm:p-7 transition-colors hover:border-lime-300/20 hover:bg-white/[0.035] group"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="grid h-11 w-11 place-items-center rounded-xl border border-lime-300/15 bg-lime-300/[0.06] text-lime-300 group-hover:bg-lime-300/[0.12]">
+                    <Activity size={20} />
+                  </div>
+                  <span className="font-mono text-xs text-neutral-600">01</span>
+                </div>
+                <h3 className="mt-9 text-xl font-medium tracking-tight text-neutral-100">
+                  Activity streak
+                </h3>
+                <p className="mt-3 text-sm text-neutral-500">
+                  Commands you&apos;ve run on consecutive days.
+                </p>
+                <div className="mt-8 space-y-4">
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-3xl font-semibold text-neutral-100 font-mono">
+                      12
+                    </span>
+                    <span className="text-xs text-lime-300 font-mono">day streak</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs text-neutral-500">
+                    <span className="h-1.5 w-1.5 rounded-full bg-lime-300 shadow-[0_0_8px_rgba(190,242,100,0.6)]" />
+                    Best: 21 days &middot; Most active: Tuesday
+                  </div>
+                </div>
+                <div className="mt-6 flex items-center justify-between rounded-lg border border-white/[0.07] bg-black/20 p-3 font-mono text-[10px]">
+                  <span className="text-neutral-600">Commands today</span>
+                  <span className="text-lime-300 font-semibold">47</span>
+                </div>
+              </motion.article>
+
+              {/* usage graph card */}
+              <motion.article
+                whileHover={{ y: -4 }}
+                transition={{ duration: 0.2 }}
+                className="relative overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.02] p-6 sm:p-7 transition-colors hover:border-emerald-400/20 hover:bg-white/[0.035] group lg:col-span-2"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="grid h-11 w-11 place-items-center rounded-xl border border-emerald-400/15 bg-emerald-400/[0.06] text-emerald-400 group-hover:bg-emerald-400/[0.12]">
+                    <BarChart3 size={20} />
+                  </div>
+                  <span className="font-mono text-xs text-neutral-600">02</span>
+                </div>
+                <h3 className="mt-9 text-xl font-medium tracking-tight text-neutral-100">
+                  Usage over time
+                </h3>
+                <p className="mt-3 text-sm text-neutral-500">
+                  Command activity across days and months.
+                </p>
+                <div className="mt-8 h-36 w-full">
+                  <ActivityGraph />
+                </div>
+                <div className="mt-4 flex items-center justify-between text-[10px] tracking-[0.12em] text-neutral-600 font-mono">
+                  <span>Last 30 days</span>
+                  <span className="flex items-center gap-1">
+                    <span className="h-1 w-1 rounded-full bg-lime-300" />
+                    Commands
+                  </span>
+                </div>
+              </motion.article>
+
+              {/* most used tools card */}
+              <motion.article
+                whileHover={{ y: -4 }}
+                transition={{ duration: 0.2 }}
+                className="relative overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.02] p-6 sm:p-7 transition-colors hover:border-lime-300/20 hover:bg-white/[0.035] group"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="grid h-11 w-11 place-items-center rounded-xl border border-lime-300/15 bg-lime-300/[0.06] text-lime-300 group-hover:bg-lime-300/[0.12]">
+                    <Terminal size={20} />
+                  </div>
+                  <span className="font-mono text-xs text-neutral-600">03</span>
+                </div>
+                <h3 className="mt-9 text-xl font-medium tracking-tight text-neutral-100">
+                  Most used tools
+                </h3>
+                <p className="mt-3 text-sm text-neutral-500">
+                  Your most frequently run commands this month.
+                </p>
+                <div className="mt-7 space-y-4">
+                  {[
+                    { name: "find", count: 124, pct: 100 },
+                    { name: "grep", count: 98, pct: 79 },
+                    { name: "git", count: 87, pct: 70 },
+                    { name: "ls", count: 76, pct: 61 },
+                    { name: "cd", count: 65, pct: 52 },
+                    { name: "docker", count: 41, pct: 33 },
+                  ].map((tool) => (
+                    <div key={tool.name} className="flex items-center gap-3">
+                      <span className="flex-shrink-0 font-mono text-xs text-neutral-400 w-12">
+                        {tool.name}
+                      </span>
+                      <div className="flex-1 h-1.5 bg-white/[0.06] rounded-full overflow-hidden">
+                        <div
+                          className="h-full bg-lime-300 rounded-full"
+                          style={{ width: `${tool.pct}%` }}
+                        />
+                      </div>
+                      <span className="flex-shrink-0 font-mono text-[10px] text-neutral-500 w-16 text-right">
+                        {tool.count}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </motion.article>
+
+              {/* system resources card */}
+              <motion.article
+                whileHover={{ y: -4 }}
+                transition={{ duration: 0.2 }}
+                className="relative overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.02] p-6 sm:p-7 transition-colors hover:border-emerald-400/20 hover:bg-white/[0.035] group"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="grid h-11 w-11 place-items-center rounded-xl border border-emerald-400/15 bg-emerald-400/[0.06] text-emerald-400 group-hover:bg-emerald-400/[0.12]">
+                    <Monitor size={20} />
+                  </div>
+                  <span className="font-mono text-xs text-neutral-600">04</span>
+                </div>
+                <h3 className="mt-9 text-xl font-medium tracking-tight text-neutral-100">
+                  System resources
+                </h3>
+                <p className="mt-3 text-sm text-neutral-500">
+                  Live machine usage (demo values).
+                </p>
+                <div className="mt-7 space-y-5">
+                  {[
+                    { label: "RAM", value: 68, icon: MemoryStick },
+                    { label: "CPU", value: 34, icon: Cpu },
+                    { label: "Disk", value: 52, icon: HardDrive },
+                  ].map((res) => {
+                    const ResIcon = res.icon;
+                    return (
+                      <div key={res.label} className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <div className="grid h-6 w-6 place-items-center rounded-lg border border-white/[0.06] bg-white/[0.02] text-emerald-400">
+                            <ResIcon size={13} />
+                          </div>
+                          <span className="font-mono text-xs text-neutral-300">{res.label}</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <span className="font-mono text-xs text-neutral-500 w-8 text-right">
+                            {res.value}%
+                          </span>
+                          <div className="w-20 h-1.5 bg-white/[0.06] rounded-full overflow-hidden">
+                            <div
+                              className="h-full bg-emerald-400 rounded-full shadow-[0_0_10px_rgba(52,211,153,0.5)]"
+                              style={{ width: `${res.value}%` }}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                  <div className="mt-3 flex items-center gap-2 text-[10px] text-neutral-600 font-mono">
+                    <Zap size={11} className="text-emerald-400/70" />
+                    <span>Readings update every 5s</span>
+                  </div>
+                </div>
+              </motion.article>
+            </div>
           </div>
         </section>
         {/* Getting started */}
